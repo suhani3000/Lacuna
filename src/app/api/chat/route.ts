@@ -131,7 +131,7 @@ export async function POST(req: Request) {
 
     const contextBlock = context
       ? [
-          'Latest Feynman analysis for this thread:',
+          'Latest Lacuna analysis for this thread:',
           context.concept ? `Concept: ${context.concept}` : '',
           context.gap ? `Identified gap: ${context.gap}` : '',
           context.question ? `Guiding question: ${context.question}` : '',
@@ -140,7 +140,7 @@ export async function POST(req: Request) {
           .join('\n')
       : 'No structured analysis context was attached to this message; use the thread.'
 
-    const system = `You are a Socratic coach in a Feynman-style tutoring chat.
+    const system = `You are a Socratic coach in Lacuna — a tutoring chat focused on explaining concepts clearly and surfacing misunderstandings.
 ${contextBlock}
 
 Formatting rules (critical):

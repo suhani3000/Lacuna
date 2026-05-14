@@ -4,9 +4,8 @@ import { useCallback, useEffect, useState } from 'react'
 
 import ConversationDrawer from '@/components/ConversationDrawer'
 import type { ConversationRow } from '@/components/ConversationDrawer'
-import FeynmanInput from '@/components/FeynmanInput'
+import LacunaInput from '@/components/LacunaInput'
 import GapCard from '@/components/GapCard'
-import History from '@/components/History'
 import type { HistoryItem } from '@/components/History'
 import MainCoachThread from '@/components/MainCoachThread'
 import Terminal from '@/components/Terminal'
@@ -123,12 +122,8 @@ export default function Page() {
     setPhase('input')
   }
 
-  const showFeynmanPanel = phase === 'input' && !analysisResult
+  const showConceptPanel = phase === 'input' && !analysisResult
   const showStreamingPanel = phase === 'streaming' && Boolean(conversationId)
-
-  function clearSidePanel() {
-    setAnalysisResult(null)
-  }
 
   return (
     <div className="flex h-dvh flex-col bg-gray-950 text-gray-100">
@@ -152,10 +147,10 @@ export default function Page() {
         </button>
         <div className="min-w-0 flex-1">
           <h1 className="truncate text-base font-bold tracking-tight text-white sm:text-lg">
-            The Feynman Test
+            Lacuna
           </h1>
           <p className="hidden truncate text-xs text-gray-500 sm:block">
-            Coach chat is the main thread; each new topic is a new conversation.
+            Coach chat is the main thread; each new topic is a new conversation in Lacuna.
           </p>
         </div>
       </header>
@@ -199,7 +194,7 @@ export default function Page() {
                   aria-hidden
                 />
                 <p className="text-xs font-medium text-gray-300 sm:text-sm">
-                  Running Feynman check on your explanation…
+                  Running Lacuna check on your explanation…
                 </p>
               </div>
               <div className="min-h-0 flex-1 overflow-auto p-4 sm:p-6">
@@ -216,9 +211,9 @@ export default function Page() {
             </section>
           ) : (
             <>
-              {showFeynmanPanel && (
+              {showConceptPanel && (
                 <section className="shrink-0 border-b border-gray-800/80 bg-gray-950/40 px-3 py-3 sm:px-5 sm:py-4">
-                  <FeynmanInput
+                  <LacunaInput
                     key={historyRefresh}
                     onSubmit={handleSubmit}
                     isDisabled={!sessionId || !conversationId}
@@ -241,25 +236,14 @@ export default function Page() {
         <aside className="flex max-h-[min(42vh,22rem)] w-full shrink-0 flex-col border-t border-gray-800/90 bg-gray-950 lg:max-h-none lg:min-h-0 lg:w-80 lg:max-w-[min(100vw,20rem)] lg:shrink-0 lg:border-l lg:border-t-0 xl:w-96">
           <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto overscroll-y-contain p-3 sm:p-4">
             {analysisResult && concept ? (
-              <GapCard
-                concept={concept}
-                data={analysisResult}
-                variant="compact"
-                showFooter
-                onReset={clearSidePanel}
-              />
+              <GapCard concept={concept} data={analysisResult} variant="compact" />
             ) : (
               <div className="rounded-xl border border-dashed border-gray-800/90 bg-gray-900/30 px-3 py-6 text-center text-xs leading-relaxed text-gray-500 sm:text-sm">
-                After a Feynman check, your gap and follow-up land here. Use the menu to pick a
+                After a Lacuna check, your gap and follow-up land here. Use the menu to pick a
                 topic first.
               </div>
             )}
 
-            <History
-              sessionId={sessionId}
-              conversationId={conversationId}
-              refreshTrigger={historyRefresh}
-            />
           </div>
         </aside>
       </div>

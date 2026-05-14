@@ -29,7 +29,7 @@ interface MainCoachThreadProps {
   conversationId: string | null
   coachContext: CoachContext | null
   refreshTrigger: number
-  /** After a Feynman analysis exists, copy and layout focus on coaching. */
+  /** After a Lacuna analysis exists, copy and layout focus on coaching. */
   analysisReady?: boolean
   className?: string
 }
@@ -247,7 +247,7 @@ export default function MainCoachThread({
           <p className="py-8 text-center text-sm text-gray-500">
             {analysisReady
               ? 'Your gap summary is on the right. Ask the coach about the follow-up question, or say what still feels fuzzy.'
-              : 'Explain your concept above to run the first Feynman check. The coach thread will grow here.'}
+              : 'Explain your concept above to run the first Lacuna check. The coach thread will grow here.'}
           </p>
         )}
         {messages.map((m) => (

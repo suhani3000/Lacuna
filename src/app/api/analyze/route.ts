@@ -53,7 +53,7 @@ function parseAnalyzeBody(raw: string): AnalyzeRequest | null {
 }
 
 function buildAnalysisUserMessage(concept: string, explanation: string): string {
-  return `I ran a Feynman check on «${concept}».
+  return `I ran a Lacuna check on «${concept}».
 
 My explanation:
 ${explanation}`

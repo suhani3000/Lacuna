@@ -5,12 +5,12 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'The Feynman Test',
-  description: 'Find out what you don\'t actually know',
+  title: 'Lacuna',
+  description: 'Find the gaps in what you think you know',
   openGraph: {
-    title: 'The Feynman Test',
-    description: 'AI-powered tool to find gaps in your understanding',
-  }
+    title: 'Lacuna',
+    description: 'Lacuna helps you spot gaps in your understanding and coach through them',
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

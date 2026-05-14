@@ -165,9 +165,7 @@ export default function History({
 
       {conversationId && !isLoading && !error && items.length === 0 && (
         <p className="py-4 text-center text-xs leading-relaxed text-gray-500 sm:text-sm">
-          No checks in this thread yet. Run one from the explanation box when it&apos;s visible, or
-          use <span className="text-gray-400">Clear side panel</span> on the gap card to show it
-          again.
+          No checks in this thread yet. Run one from the explanation area when it&apos;s visible.
         </p>
       )}
 

@@ -2,17 +2,17 @@
 
 import { useState, type FormEvent } from 'react'
 
-export interface FeynmanInputProps {
+export interface LacunaInputProps {
   onSubmit: (data: { concept: string; explanation: string }) => void
   isDisabled: boolean
   compact?: boolean
 }
 
-export default function FeynmanInput({
+export default function LacunaInput({
   onSubmit,
   isDisabled,
   compact = false,
-}: FeynmanInputProps) {
+}: LacunaInputProps) {
   const [concept, setConcept] = useState('')
   const [explanation, setExplanation] = useState('')
 
@@ -43,11 +43,11 @@ export default function FeynmanInput({
     >
       <div className={compact ? 'space-y-4' : 'space-y-6'}>
         <div className="space-y-2">
-          <label htmlFor="feynman-concept" className="block text-sm font-medium text-gray-200">
+          <label htmlFor="lacuna-concept" className="block text-sm font-medium text-gray-200">
             Concept or topic
           </label>
           <input
-            id="feynman-concept"
+            id="lacuna-concept"
             type="text"
             value={concept}
             onChange={(e) => setConcept(e.target.value)}
@@ -58,11 +58,11 @@ export default function FeynmanInput({
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="feynman-explanation" className="block text-sm font-medium text-gray-200">
+          <label htmlFor="lacuna-explanation" className="block text-sm font-medium text-gray-200">
             Explain it in plain English, no notes
           </label>
           <textarea
-            id="feynman-explanation"
+            id="lacuna-explanation"
             value={explanation}
             onChange={(e) => setExplanation(e.target.value)}
             disabled={isDisabled}
@@ -87,7 +87,7 @@ export default function FeynmanInput({
               : 'w-full rounded-lg bg-indigo-600 px-4 py-3 text-center text-sm font-semibold text-white shadow transition hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 focus:ring-offset-gray-900 disabled:cursor-not-allowed disabled:opacity-50'
           }
         >
-          Run Feynman check →
+          Run Lacuna check →
         </button>
       </div>
     </form>

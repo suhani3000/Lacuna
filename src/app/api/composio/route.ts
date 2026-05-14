@@ -219,38 +219,41 @@ function chunkForNotionText(s: string): string[] {
   return parts
 }
 
-function buildFeynmanGapContentBlocks(body: ComposioRequest): Array<{
-  content: string
-  block_property: string
+function buildLacunaGapContentBlocks(body: ComposioRequest): Array<{
+  content_block: { content: string; block_property: string }
 }> {
-  const blocks: Array<{ content: string; block_property: string }> = []
-  blocks.push({ content: 'Feynman gap analysis', block_property: 'heading_2' })
-  blocks.push({ content: 'Concept', block_property: 'heading_3' })
+  const inner: Array<{ content: string; block_property: string }> = []
+  inner.push({ content: 'Lacuna gap analysis', block_property: 'heading_2' })
+  inner.push({ content: 'Concept', block_property: 'heading_3' })
   for (const c of chunkForNotionText(body.concept)) {
-    blocks.push({ content: c, block_property: 'paragraph' })
+    inner.push({ content: c, block_property: 'paragraph' })
   }
-  blocks.push({ content: 'What you missed', block_property: 'heading_3' })
+  inner.push({ content: 'What you missed', block_property: 'heading_3' })
   for (const c of chunkForNotionText(body.gap)) {
-    blocks.push({ content: c, block_property: 'paragraph' })
+    inner.push({ content: c, block_property: 'paragraph' })
   }
-  blocks.push({ content: 'Follow-up question', block_property: 'heading_3' })
+  inner.push({ content: 'Follow-up question', block_property: 'heading_3' })
   for (const c of chunkForNotionText(body.question)) {
-    blocks.push({ content: c, block_property: 'paragraph' })
+    inner.push({ content: c, block_property: 'paragraph' })
   }
   if (body.hint.trim().length > 0) {
-    blocks.push({ content: 'Hint', block_property: 'heading_3' })
+    inner.push({ content: 'Hint', block_property: 'heading_3' })
     for (const c of chunkForNotionText(body.hint)) {
-      blocks.push({ content: c, block_property: 'paragraph' })
+      inner.push({ content: c, block_property: 'paragraph' })
     }
   }
   const max = 95
+  let blocks = inner
   if (blocks.length > max) {
-    return [
-      ...blocks.slice(0, max - 1),
-      { content: '… (remaining sections truncated for Notion limits)', block_property: 'paragraph' },
+    blocks = [
+      ...inner.slice(0, max - 1),
+      {
+        content: '… (remaining sections truncated for Notion limits)',
+        block_property: 'paragraph',
+      },
     ]
   }
-  return blocks
+  return blocks.map((b) => ({ content_block: b }))
 }
 
 /** Composio create-page often returns only a title; body goes via NOTION_ADD_MULTIPLE_PAGE_CONTENT. */
@@ -353,7 +356,7 @@ export async function POST(req: Request) {
     ].join('\n')
 
     const nlaText = [
-      'Create or update a Notion page that records this Feynman gap analysis.',
+      'Create or update a Notion page that records this Lacuna gap analysis.',
       `Use "${body.concept}" as the page title (or main heading).`,
       'Organize the body with clear sections for: the gap, the follow-up question, and the hint.',
       'Keep wording faithful to the user content below.',
@@ -479,7 +482,7 @@ export async function POST(req: Request) {
         entityId: tenantEntityId,
         params: {
           parent_block_id: pageId,
-          content_blocks: buildFeynmanGapContentBlocks(body),
+          content_blocks: buildLacunaGapContentBlocks(body),
         },
       })
 

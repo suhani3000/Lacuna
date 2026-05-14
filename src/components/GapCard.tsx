@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react'
 
+import { getOrCreateSessionId, readNotionParentFromStorage, writeNotionParentToStorage } from '@/lib/session'
+
 export interface GapCardProps {
   concept: string
   data: {
@@ -12,8 +14,6 @@ export interface GapCardProps {
     severity: string
   }
   variant?: 'default' | 'compact'
-  showFooter?: boolean
-  onReset?: () => void
 }
 
 function severityStyles(severity: string): { label: string; className: string } {
@@ -43,8 +43,6 @@ export default function GapCard({
   concept,
   data,
   variant = 'default',
-  showFooter = true,
-  onReset,
 }: GapCardProps) {
   const [hintVisible, setHintVisible] = useState(false)
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle')
@@ -58,7 +56,7 @@ export default function GapCard({
 
   useEffect(() => {
     try {
-      setNotionParentId(localStorage.getItem('feynman_notion_parent_id') ?? '')
+      setNotionParentId(readNotionParentFromStorage())
     } catch {
       setNotionParentId('')
     }
@@ -78,8 +76,7 @@ export default function GapCard({
     setSaveStatus('saving')
     const trimmedParent = notionParentId.trim()
     try {
-      if (trimmedParent) localStorage.setItem('feynman_notion_parent_id', trimmedParent)
-      else localStorage.removeItem('feynman_notion_parent_id')
+      writeNotionParentToStorage(trimmedParent)
     } catch {
       /* ignore */
     }
@@ -88,7 +85,7 @@ export default function GapCard({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          sessionId: localStorage.getItem('feynman_session_id') ?? '',
+          sessionId: getOrCreateSessionId(),
           concept,
           gap: data.gap,
           question: data.question,
@@ -250,22 +247,20 @@ export default function GapCard({
               )}
               <div className="space-y-1">
                 <label
-                  htmlFor="feynman-notion-parent"
+                  htmlFor="lacuna-notion-parent"
                   className="sr-only"
                 >
                   Notion parent page or database ID
                 </label>
                 <input
                   ref={notionParentRef}
-                  id="feynman-notion-parent"
+                  id="lacuna-notion-parent"
                   type="text"
                   value={notionParentId}
                   onChange={(e) => setNotionParentId(e.target.value)}
                   onBlur={() => {
                     try {
-                      const v = notionParentId.trim()
-                      if (v) localStorage.setItem('feynman_notion_parent_id', v)
-                      else localStorage.removeItem('feynman_notion_parent_id')
+                      writeNotionParentToStorage(notionParentId)
                     } catch {
                       /* ignore */
                     }
@@ -343,17 +338,6 @@ export default function GapCard({
         </section>
       )}
 
-      {showFooter && onReset && (
-        <div className="border-t border-gray-800 pt-3">
-          <button
-            type="button"
-            onClick={onReset}
-            className="w-full rounded-lg border border-gray-700 bg-transparent px-3 py-2 text-xs font-medium text-gray-300 transition hover:border-gray-600 hover:bg-gray-800/50 hover:text-white focus:outline-none focus:ring-2 focus:ring-gray-600 sm:text-sm"
-          >
-            Clear gap & show explanation again
-          </button>
-        </div>
-      )}
     </div>
   )
 }
