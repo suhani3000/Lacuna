@@ -55,8 +55,13 @@ export default function ConversationDrawer({
 
   useEffect(() => {
     if (!sessionId) {
-      setItems([])
-      return
+      let cleared = false
+      queueMicrotask(() => {
+        if (!cleared) setItems([])
+      })
+      return () => {
+        cleared = true
+      }
     }
 
     let cancelled = false

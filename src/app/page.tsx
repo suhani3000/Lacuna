@@ -37,7 +37,13 @@ export default function Page() {
       : null
 
   useEffect(() => {
-    setSessionId(getOrCreateSessionId())
+    let cancelled = false
+    queueMicrotask(() => {
+      if (!cancelled) setSessionId(getOrCreateSessionId())
+    })
+    return () => {
+      cancelled = true
+    }
   }, [])
 
   const hydrateFromHistory = useCallback(

@@ -55,10 +55,17 @@ export default function GapCard({
     saveStatus === 'idle' || saveStatus === 'saving' || saveStatus === 'error'
 
   useEffect(() => {
-    try {
-      setNotionParentId(readNotionParentFromStorage())
-    } catch {
-      setNotionParentId('')
+    let cancelled = false
+    queueMicrotask(() => {
+      if (cancelled) return
+      try {
+        setNotionParentId(readNotionParentFromStorage())
+      } catch {
+        setNotionParentId('')
+      }
+    })
+    return () => {
+      cancelled = true
     }
   }, [])
 

@@ -82,10 +82,16 @@ export default function History({
 
   useEffect(() => {
     if (!sessionId || !conversationId) {
-      setItems([])
-      setIsLoading(false)
-      setError(null)
-      return
+      let cancelled = false
+      queueMicrotask(() => {
+        if (cancelled) return
+        setItems([])
+        setIsLoading(false)
+        setError(null)
+      })
+      return () => {
+        cancelled = true
+      }
     }
 
     let cancelled = false

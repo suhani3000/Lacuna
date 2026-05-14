@@ -24,7 +24,7 @@ export function getOrCreateSessionId(): string {
 /** Read Notion parent id; migrates legacy `feynman_notion_parent_id` key once. */
 export function readNotionParentFromStorage(): string {
   if (typeof window === 'undefined') return ''
-  let v = localStorage.getItem(NOTION_PARENT_STORAGE_KEY)
+  const v = localStorage.getItem(NOTION_PARENT_STORAGE_KEY)
   if (v) return v
   const legacy = localStorage.getItem(LEGACY_NOTION_PARENT_KEY)
   if (legacy) {

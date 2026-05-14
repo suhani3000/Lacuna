@@ -55,9 +55,15 @@ export default function MainCoachThread({
 
   useEffect(() => {
     if (!sessionId || !conversationId) {
-      setMessages([])
-      setLoading(false)
-      return
+      let cancelledEmpty = false
+      queueMicrotask(() => {
+        if (cancelledEmpty) return
+        setMessages([])
+        setLoading(false)
+      })
+      return () => {
+        cancelledEmpty = true
+      }
     }
 
     let cancelled = false
