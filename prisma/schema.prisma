@@ -1,0 +1,58 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  directUrl  = env("DIRECT_URL")
+  extensions = [vector]
+}
+
+model Conversation {
+  id        String   @id @default(cuid())
+  sessionId String
+  title     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  messages ChatMessage[]
+  gaps     GapRecord[]
+
+  @@index([sessionId, updatedAt])
+}
+
+model GapRecord {
+  id               String       @id @default(cuid())
+  sessionId        String
+  conversationId   String?
+  conversation     Conversation? @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  concept          String
+  explanation      String
+  gap              String
+  question         String
+  hint             String?
+  severity         String?
+  recurringPattern String?
+  embedding        Unsupported("vector(768)")?
+  createdAt        DateTime     @default(now())
+
+  @@index([sessionId])
+  @@index([conversationId])
+}
+
+model ChatMessage {
+  id               String        @id @default(cuid())
+  sessionId        String
+  conversationId   String?
+  conversation     Conversation? @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  role      String
+  content   String
+  createdAt DateTime @default(now())
+
+  @@index([conversationId, createdAt])
+  @@index([sessionId, createdAt])
+}
