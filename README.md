@@ -181,14 +181,6 @@ Merge to main → Vercel deploys to production
 
 ---
 
-## What Was Deliberately Cut
-
-Scores. Streaks. Progress bars. Leaderboards.
-
-Every study app adds gamification to help you feel productive without being productive. Lacuna has one output — one question you probably can't answer. That's the whole product.
-
----
-
 ## What's Next
 
 - **Per-concept embeddings** — currently embeds the full explanation as one vector; splitting by concept would let the system detect patterns like *"you always skip the mechanism, never just the definition"* across different topics
