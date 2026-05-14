@@ -6,10 +6,6 @@ on:
   pull_request:
     branches: [main, master]
 
-defaults:
-  run:
-    working-directory: feynman-test
-
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -23,7 +19,7 @@ jobs:
         with:
           node-version: "20"
           cache: npm
-          cache-dependency-path: feynman-test/package-lock.json
+          cache-dependency-path: package-lock.json
 
       - run: npm ci
 
