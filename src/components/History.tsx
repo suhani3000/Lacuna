@@ -95,8 +95,12 @@ export default function History({
     }
 
     let cancelled = false
-    setIsLoading(true)
-    setError(null)
+
+    queueMicrotask(() => {
+      if (cancelled) return
+      setIsLoading(true)
+      setError(null)
+    })
 
     void (async () => {
       try {

@@ -65,8 +65,12 @@ export default function ConversationDrawer({
     }
 
     let cancelled = false
-    setLoading(true)
-    setError(null)
+
+    queueMicrotask(() => {
+      if (cancelled) return
+      setLoading(true)
+      setError(null)
+    })
 
     void (async () => {
       try {

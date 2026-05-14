@@ -67,8 +67,12 @@ export default function MainCoachThread({
     }
 
     let cancelled = false
-    setLoading(true)
-    setError(null)
+
+    queueMicrotask(() => {
+      if (cancelled) return
+      setLoading(true)
+      setError(null)
+    })
 
     void (async () => {
       try {
