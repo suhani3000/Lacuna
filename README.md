@@ -4,7 +4,7 @@
 
 Lacuna is a 4-agent AI pipeline that reads your explanation of any technical concept and generates a single Socratic question targeting the most critical gap in your understanding — using your own words against you.
 
-**[→ Live Demo](https://lacuna.vercel.app)**
+**[→ Live Demo](https://lacuna-m6wf.vercel.app/)**
 
 ---
 
@@ -112,10 +112,10 @@ lacuna/
 
 | Service | Where to get it |
 |---|---|
-| **OpenRouter** | [openrouter.ai](https://openrouter.ai) → API Keys |
-| **Google AI Studio** | [aistudio.google.com](https://aistudio.google.com) → Get API Key |
-| **Composio** | [app.composio.dev](https://app.composio.dev) → Settings → API Key |
-| **Neon** | [neon.tech](https://neon.tech) → Free tier is enough |
+| **OpenRouter** | [openrouter.ai]|
+| **Google AI Studio** | [aistudio.google.com]|
+| **Composio** | [app.composio.dev]|
+| **Neon** | [neon.tech]|
 
 ### Installation
 
@@ -160,9 +160,6 @@ npx prisma generate
 ```bash
 npm run dev
 ```
-
-Open [http://localhost:3000](http://localhost:3000)
-
 ---
 
 ## CI/CD
